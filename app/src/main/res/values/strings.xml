@@ -1,6 +1,5 @@
 <resources>
-    <string name="app_name">Hosted Login Page</string>
-
-    <string name="com_auth0_client_id">zVq02JXNLBCuf3r4ka0dBfrkaO7rsJp1</string>
+    <string name="app_name">Open Sesame</string>
+    <string name="com_auth0_client_id">ESsQCNOZqOc3TzqFN1Guhe5LMfDbyeVv</string>
     <string name="com_auth0_domain">bendechrai.auth0.com</string>
 </resources>
