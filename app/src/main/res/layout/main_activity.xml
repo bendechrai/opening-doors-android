@@ -18,45 +18,54 @@
     <Button
         android:id="@+id/loginButton"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="192dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
         android:height="98dp"
         android:text="Log In"
-        android:textSize="21sp" />
+        android:textSize="36sp" />
 
     <Button
         android:id="@+id/button"
-        android:enabled="false"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="192dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
         android:height="98dp"
+        android:enabled="false"
         android:text="Create Door Pass"
-        android:textSize="21sp" />
+        android:textSize="36sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dip"
         android:layout_weight="1"
         android:gravity="center|bottom"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="top|right"
+            android:gravity="bottom|center"
             android:orientation="horizontal"
-            android:paddingBottom="10dp"
-            android:paddingRight="10dp" >
+            android:paddingRight="10dp"
+            android:paddingBottom="10dp">
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
                 android:paddingRight="10dp"
-                android:text="Powered by" />
+                android:text="Powered by"
+                android:textAlignment="textEnd"
+                android:textColor="#635DFF"
+                android:textSize="18sp" />
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
+                android:layout_width="122dp"
+                android:layout_height="49dp"
                 android:contentDescription="Auth0 Logo"
                 android:scaleType="fitCenter"
                 android:src="@drawable/auth0" />

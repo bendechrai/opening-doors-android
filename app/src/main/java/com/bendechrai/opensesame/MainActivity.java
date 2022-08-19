@@ -3,9 +3,12 @@ package com.bendechrai.opensesame;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.PendingIntent;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.nfc.FormatException;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
@@ -17,6 +20,7 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -67,24 +71,22 @@ public class MainActivity extends Activity {
         context = this;
 
         btnWrite = (Button) findViewById(R.id.button);
-
         btnWrite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
                     if (myTag == null) {
-                        Toast.makeText(context, ERROR_DETECTED, Toast.LENGTH_LONG).show();
+                        customToast(ERROR_DETECTED);
                     } else {
                         write(accessToken, myTag);
-                        btnLogin.setEnabled(true);
                         btnWrite.setEnabled(false);
-                        Toast.makeText(context, WRITE_SUCCESS, Toast.LENGTH_LONG ).show();
+                        customToast(WRITE_SUCCESS);
                     }
                 } catch (IOException e) {
-                    Toast.makeText(context, WRITE_ERROR, Toast.LENGTH_LONG ).show();
+                    customToast(WRITE_ERROR);
                     e.printStackTrace();
                 } catch (FormatException e) {
-                    Toast.makeText(context, WRITE_ERROR, Toast.LENGTH_LONG ).show();
+                    customToast(WRITE_ERROR);
                     e.printStackTrace();
                 }
             }
@@ -93,7 +95,7 @@ public class MainActivity extends Activity {
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
         if (nfcAdapter == null) {
             // Stop here, we definitely need NFC
-            Toast.makeText(this, "This device doesn't support NFC.", Toast.LENGTH_LONG).show();
+            customToast("This device doesn't support NFC.");
             finish();
         }
         readFromIntent(getIntent());
@@ -125,7 +127,7 @@ public class MainActivity extends Activity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(MainActivity.this, "Error: " + exception.getMessage(), Toast.LENGTH_SHORT).show();
+                                customToast("Error: " + exception.getMessage());
                             }
                         });
                     }
@@ -136,15 +138,30 @@ public class MainActivity extends Activity {
                             @Override
                             public void run() {
                                 accessToken = credentials.getAccessToken();
-                                btnLogin.setEnabled(false);
                                 btnWrite.setEnabled(true);
+                                ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                                ClipData clip = ClipData.newPlainText("Access Token", credentials.getAccessToken());
+                                clipboard.setPrimaryClip(clip);
+                                customToast("Token copied to clipboard.\nReady to create door pass.");
                             }
                         });
                     }
                 });
     }
 
-
+    /******************************************************************************
+     *********************************Create toast message*************************
+     ******************************************************************************/
+    private void customToast (String message) {
+        Toast ToastMessage = Toast.makeText(MainActivity.this, message, Toast.LENGTH_LONG);
+        View toastView = ToastMessage.getView();
+        toastView.setPadding(0,0,0,20);
+//        toastView.setBackgroundColor(Color.parseColor("#22000000"));
+        TextView toastText = (TextView) toastView.findViewById(android.R.id.message);
+        toastText.setTextColor(Color.parseColor("#635DFF"));
+        ToastMessage.setGravity(Gravity.BOTTOM, 0, 200);
+        ToastMessage.show();
+    }
 
     /******************************************************************************
      **********************************Read From NFC Tag***************************
